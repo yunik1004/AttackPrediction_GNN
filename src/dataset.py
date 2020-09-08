@@ -39,7 +39,8 @@ ATTACK_TYPES = [
     "warezclient",
 ]
 
-ATTACK_DICT = dict(zip(ATTACK_TYPES, list(range(len(ATTACK_TYPES)))))
+NUM_ATTACK_TYPES = len(ATTACK_TYPES)
+ATTACK_DICT = dict(zip(ATTACK_TYPES, list(range(NUM_ATTACK_TYPES))))
 
 
 class TCPNetworkTrainDataset(Dataset):
@@ -75,7 +76,7 @@ class TCPNetworkTrainDataset(Dataset):
 
             edge_index = torch.from_numpy(dataframe.iloc[:, 0:2].values).long()
             node_features = torch.ones(TCPNETWORK_NUM_NODES, 1, dtype=torch.float)
-            graph_feature = torch.zeros(len(ATTACK_TYPES), 1, dtype=torch.float)
+            graph_feature = torch.zeros(NUM_ATTACK_TYPES, 1, dtype=torch.float)
 
             attack_list = list(set(dataframe.iloc[:, 4].values).difference({"-"}))
             for attack in attack_list:
