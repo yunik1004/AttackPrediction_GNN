@@ -20,6 +20,5 @@ if __name__ == "__main__":
     for data in train_loader:
         data = data.to(device)
         out = model(data)
-        print(out.shape)
-        print(data.y.shape)
+
         break

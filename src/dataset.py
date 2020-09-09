@@ -76,11 +76,11 @@ class TCPNetworkTrainDataset(Dataset):
 
             edge_index = torch.from_numpy(dataframe.iloc[:, 0:2].values).long()
             node_features = torch.ones(TCPNETWORK_NUM_NODES, 1, dtype=torch.float)
-            graph_feature = torch.zeros(NUM_ATTACK_TYPES, 1, dtype=torch.float)
+            graph_feature = torch.zeros(1, NUM_ATTACK_TYPES, dtype=torch.float)
 
             attack_list = list(set(dataframe.iloc[:, 4].values).difference({"-"}))
             for attack in attack_list:
-                graph_feature[ATTACK_DICT[attack]] = 1
+                graph_feature[0, ATTACK_DICT[attack]] = 1
 
             data = Data(
                 x=node_features, edge_index=edge_index.t().contiguous(), y=graph_feature
