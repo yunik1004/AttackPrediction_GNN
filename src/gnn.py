@@ -13,13 +13,15 @@ class TCPNet(torch.nn.Module):
     """Simple neural network for the TCP network
     """
 
-    def __init__(self, hidden_channels=100):
+    def __init__(self, hidden_channels):
         super().__init__()
 
         self.conv1 = GCNConv(1, hidden_channels)
         self.conv2 = GCNConv(hidden_channels, hidden_channels)
         self.conv3 = GCNConv(hidden_channels, hidden_channels)
-        self.lin = torch.nn.Linear(hidden_channels, NUM_ATTACK_TYPES)
+
+        self.lin1 = torch.nn.Linear(hidden_channels, hidden_channels)
+        self.lin2 = torch.nn.Linear(hidden_channels, NUM_ATTACK_TYPES)
 
     def forward(self, data):
         """Forward propagation
@@ -36,6 +38,8 @@ class TCPNet(torch.nn.Module):
         out = self.conv3(out, edge_index)
 
         out = global_mean_pool(out, batch)
-        out = self.lin(out)
+        out = self.lin1(out)
+        out = F.relu(out)
+        out = self.lin2(out)
 
         return out
