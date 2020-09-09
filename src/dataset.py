@@ -8,6 +8,7 @@ import pandas as pd
 import torch
 from torch_geometric.data import Data, Dataset
 
+ROOT_DATASET = os.path.join(Path(__file__).parent.parent.absolute(), "dataset")
 
 TCPNETWORK_NUM_NODES = 23398
 
@@ -48,8 +49,7 @@ class TCPNetworkTrainDataset(Dataset):
     """
 
     def __init__(self):
-        root = os.path.join(Path(__file__).parent.parent.absolute(), "dataset")
-        super().__init__(root, None, None, None)
+        super().__init__(ROOT_DATASET, None, None, None)
 
     @property
     def raw_dir(self):
