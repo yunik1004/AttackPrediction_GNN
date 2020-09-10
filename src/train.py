@@ -20,7 +20,7 @@ if __name__ == "__main__":
     LEARNING_RATE = 0.01
     VALID_FREQ = 100
 
-    OUTPUT_MODEL_DIR = os.path.join(Path(__file__).parent.parent.absolute(), "model")
+    OUTPUT_DIR = os.path.join(Path(__file__).parent.parent.absolute(), "out")
 
     model = TCPNet(hidden_channels=HIDDEN_CHANNELS).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
@@ -69,7 +69,7 @@ if __name__ == "__main__":
             print(f"valid loss = {average_valid_loss}")
             valid_loss_list.append(average_valid_loss)
 
-            torch.save(model, os.path.join(OUTPUT_MODEL_DIR, f"model_{epoch}.pth"))
+            torch.save(model, os.path.join(OUTPUT_DIR, f"model_{epoch}.pth"))
 
     plt.plot(
         list(range(1, NUM_EPOCHS + 1)),
@@ -87,4 +87,5 @@ if __name__ == "__main__":
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
     plt.legend()
+    plt.savefig(os.path.join(OUTPUT_DIR, "loss.svg"))
     plt.show()
