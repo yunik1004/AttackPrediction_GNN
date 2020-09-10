@@ -157,8 +157,6 @@ class TCPNetworkValidDataset(Dataset):
 
             torch.save(data, os.path.join(self.processed_dir, f"valid_{rid}.pt"))
 
-            # exit(1)
-
     def len(self):
         return len(self.raw_file_names)
 
