@@ -2,6 +2,8 @@
 """
 
 from __future__ import absolute_import, division
+import os
+from pathlib import Path
 import matplotlib.pyplot as plt
 import torch
 from torch_geometric.data import DataLoader
@@ -17,6 +19,8 @@ if __name__ == "__main__":
     NUM_EPOCHS = 1000
     LEARNING_RATE = 0.01
     VALID_FREQ = 100
+
+    OUTPUT_MODEL_DIR = os.path.join(Path(__file__).parent.parent.absolute(), "model")
 
     model = TCPNet(hidden_channels=HIDDEN_CHANNELS).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
@@ -64,6 +68,8 @@ if __name__ == "__main__":
             average_valid_loss = total_valid_loss / len(valid_loader)
             print(f"valid loss = {average_valid_loss}")
             valid_loss_list.append(average_valid_loss)
+
+            torch.save(model, os.path.join(OUTPUT_MODEL_DIR, f"model_{epoch}.pth"))
 
     plt.plot(
         list(range(1, NUM_EPOCHS + 1)),
